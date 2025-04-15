@@ -69,14 +69,15 @@ class Recon(object):
         
     def run(self):
 
-        filenum = len(os.listdir(self.lowimgpath))
+        lowimgfolder = self.testimgs_folder + 'lowimgs/'
+        filenum = len(os.listdir(lowimgfolder))
         print('共有',filenum,'个文件。')
 
         tracemalloc.start()  
         for i in range(filenum):
         
             start_time = time.time()
-            lowimg = np.load(self.testimgs_folder + f'lowimgs/lowimgname_{i+1}.npy') ###
+            lowimg = np.load(lowimgfolder + f'lowimgname_{i+1}.npy') ###
             gtimg = np.load(self.testimgs_folder + f'gtimgs/gtimgname_{i+1}.npy')
  
             #
@@ -126,5 +127,5 @@ if __name__ == '__main__':
                         help="path of the gt images")######
     args = parser.parse_args()
 
-    ReconSparse = Recon(args)
-    ReconSparse.run()
+    ReconImg = Recon(args)
+    ReconImg.run()
