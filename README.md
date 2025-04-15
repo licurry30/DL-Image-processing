@@ -1,2 +1,3 @@
 # DL-Image-processing
-Image Denoising and Restoration based on pix2pix with Self-Attention Mechanism.
+This repo is about image processing methods using deep learning methods.
+It mainly involves image restoration, denoising, enhancement and reconstruction; Image segmentation and classification; Object detection and recognition.
