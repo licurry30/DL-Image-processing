@@ -118,11 +118,11 @@ if __name__ == '__main__':
                         help="epoch of model checkpoint")
     parser.add_argument("--lowimgpath", 
                         type=str, 
-                        default="", 
+                        default="test/lowimg", 
                         help="path of the sinogram")######
     parser.add_argument("--gtimgpath", 
                         type=str, 
-                        default="test/img", 
+                        default="test/gtimg", 
                         help="path of the images")######
     args = parser.parse_args()
 
