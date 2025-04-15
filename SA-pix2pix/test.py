@@ -19,8 +19,8 @@ class Recon(object):
         
         self.RDNet = self.load_model(args.model_path)
         self.epoch = args.epoch
-        self.lowimgpath = args.lowimgpath######输入
-        self.gtimgpath = args.gtimgpath
+        self.testimgs_folder = args.testimgs_folder
+        self.results_folder = args.results_folder
 
     # 加载模型
     def load_model(self,model_path):
@@ -76,15 +76,15 @@ class Recon(object):
         for i in range(filenum):
         
             start_time = time.time()
-            lowimg = self.lowimgpath + f'/lowimgname_{i+1}.npy' ###
-            gtimg = np.load(self.gtimgpath + f'/gtimgname_{i+1}.npy')
+            lowimg = np.load(self.testimgs_folder + f'lowimgs/lowimgname_{i+1}.npy') ###
+            gtimg = np.load(self.testimgs_folder + f'gtimgs/gtimgname_{i+1}.npy')
  
             #
             genimg = self.model_process(lowimg,self.RDNet)
             #
             psnr_value, ssim_value = self.calculate_metrics(genimg, gtimg)
             #
-            with open(f"results/metrics_epoch={self.epoch}.csv", "a") as log_file:
+            with open(self.results_folder + f"metrics_epoch={self.epoch}.csv", "a") as log_file:
                 log_writer = csv.writer(log_file)
                 if i == 0:  # 在第一个 epoch 添加表头
                     log_writer.writerow(["ID", "PSNR", "SSIM"])
@@ -92,7 +92,7 @@ class Recon(object):
         
             genimg = (genimg * 255).astype(np.uint8)
             genimg_pil = Image.fromarray(genimg)
-            genimg_pil.save(f"results/imgs_gen/gen_epoch={self.epoch}_{i+1}.jpg", "JPEG", quality=100)
+            genimg_pil.save(self.results_folder + f"imgs_gen/gen_epoch={self.epoch}_{i+1}.jpg", "JPEG", quality=100)
 
 
             cost_time = time.time()-start_time
@@ -111,19 +111,19 @@ if __name__ == '__main__':
     parser.add_argument("--model_path", 
                         type=str, 
                         default="saved_models/generator_2025-01-17_499.pth", 
-                        help="path of the model checkpoint")######
+                        help="path of the model checkpoints")######
     parser.add_argument("--epoch", 
                         type=int, 
                         default=499, 
-                        help="epoch of model checkpoint")
-    parser.add_argument("--lowimgpath", 
+                        help="epoch of model checkpoints")
+    parser.add_argument("--testimgs_folder", 
                         type=str, 
-                        default="test/lowimg", 
-                        help="path of the sinogram")######
-    parser.add_argument("--gtimgpath", 
+                        default="testimgs/", 
+                        help="path of the low quality imgs")######
+    parser.add_argument("--results_folder", 
                         type=str, 
-                        default="test/gtimg", 
-                        help="path of the images")######
+                        default="results/", 
+                        help="path of the gt images")######
     args = parser.parse_args()
 
     ReconSparse = Recon(args)
