@@ -35,7 +35,7 @@ class ImageDataset(Dataset):
         img_A = self.transform(img_A)
         img_B = self.transform(img_B)
 
-        return {"B": img_A, "A": img_B}
+        return {"A": img_A, "B": img_B}
 
     def __len__(self): #上面调用了这个父类的函数，子类必须声明
         return len(self.files)
