@@ -29,7 +29,7 @@ class LDFDCT(Dataset):
         
         base_name = self.img_ld_path[index].split('/')[-1]
         case_name = base_name.split('_')[0]
-        # img_LD = Image.open(self.img_ld_path[index]).convert("RGB")
+        # img_FD = Image.open(self.img_ld_path[index]).convert("RGB")
         img_LD = Image.open(self.img_ld_path[index]).convert("L")
         img_FD = Image.open(self.img_fd_path[index]).convert("L")
         img_LD = img_LD.resize((self.img_size, self.img_size))
